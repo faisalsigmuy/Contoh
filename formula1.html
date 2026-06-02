@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Info - Formula 1 Terlengkap</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0,0,0,0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff1d25;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff1d25;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23000" width="1200" height="600"/><path fill="%23ff1d25" opacity="0.1" d="M0 300 Q300 0 600 300 T1200 300 V600 H0 Z"/></svg>') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            background: #ff1d25;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ff1d25;
+        }
+
+        /* Drivers Grid */
+        .drivers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .driver-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s;
+        }
+
+        .driver-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .driver-flag {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .driver-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .driver-team {
+            color: #ff1d25;
+            font-weight: bold;
+        }
+
+        /* Schedule */
+        .schedule {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            background: #ff1d25;
+            color: white;
+        }
+
+        tr:hover {
+            background: rgba(255,29,37,0.2);
+        }
+
+        /* Teams */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.3));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: scale(1.05);
+        }
+
+        .team-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff1d25;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.9);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-tachometer-alt"></i> F1 Info
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#drivers">Drivers</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#teams">Teams</a></li>
+                <li><a href="#stats">Stats</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>FORMULA 1</h1>
+            <p>Kecepatan, Strategi, dan Ketangguhan</p>
+            <a href="#drivers" class="cta-btn">Lihat Drivers</a>
+        </div>
+    </section>
+
+    <!-- Drivers Section -->
+    <section id="drivers" class="section">
+        <h2><i class="fas fa-user-tie"></i> Top Drivers 2026</h2>
+        <div class="drivers-grid">
+            <div class="driver-card">
+                <div class="driver-flag">🇮🇹</div>
+                <div class="driver-name">Kimi Antonelli</div>
+                <div class="driver-team">Mercedes</div>
+                <div>Points: 131</div>
+            </div>
+            <div class="driver-card">
+                <div class="driver-flag">🇬🇧</div>
+                <div class="driver-name">George Russell</div>
+                <div class="driver-team">Mercedes</div>
+                <div>Points: 88</div>
+            </div>
+            <div class="driver-card">
+                <div class="driver-flag">🇲🇨</div>
+                <div class="driver-name">Charles Leclerc</div>
+                <div class="driver-team">Ferrari</div>
+                <div>Points: 75</div>
+            </div>
+            <div class="driver-card">
+                <div class="driver-flag">🇬🇧</div>
+                <div class="driver-name">Lewis Hamilton</div>
+                <div class="driver-team">Ferrari</div>
+                <div>Points: 72</div>
+            </div>
+            <div class="driver-card">
+                <div class="driver-flag">🇬🇧</div>
+                <div class="driver-name">Lando Norris</div>
+                <div class="driver-team">Mclaren</div>
+                <div>Points: 58</div>
+            </div>
+            <div class="driver-card">
+                <div class="driver-flag">🇦🇺</div>
+                <div class="driver-name">Oscar Piastri</div>
+                <div class="driver-team">Mclaren</div>
+                <div>Points: 48</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="section">
+        <h2><i class="fas fa-calendar-alt"></i> Race Schedule 2026</h2>
+        <div class="schedule">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Circuit</th>
+                        <th>Tanggal</th>
+                        <th>Negara</th>
+                        <th>Winner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Australia</td>
+                        <td>8 Mar</td>
+                        <td>🇦🇺</td>
+                        <td>George Russell</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>China</td>
+                        <td>15 Mar</td>
+                        <td>🇨🇳</td>
+                        <td>Kimi Antonelli</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Jepang</td>
+                        <td>29 Mar</td>
+                        <td>🇯🇵</td>
+                        <td>Kimi Antonelli</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Miami</td>
+                        <td>4 May</td>
+                        <td>🇺🇲</td>
+                        <td>Kimi Antonelli</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Kanada</td>
+                        <td>25 May</td>
+                        <td>🇨🇦</td>
+                        <td>Kimi Antonelli</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Monako</td>
+                        <td>7 Jun</td>
+                        <td>🇲🇨</td>
+                        <td>Belum Dimulai</td>
+                    <tr>
+    <td>7</td>
+    <td>Barcelona</td>
+    <td>14 Jun</td>
+    <td>🇪🇸</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>8</td>
+    <td>Austria</td>
+    <td>28 Jun</td>
+    <td>🇦🇹</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>9</td>
+    <td>Inggris</td>
+    <td>5 Jul</td>
+    <td>🇬🇧</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>10</td>
+    <td>Belgia</td>
+    <td>19 Jul</td>
+    <td>🇧🇪</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>11</td>
+    <td>Hongaria</td>
+    <td>26 Jul</td>
+    <td>🇭🇺</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>12</td>
+    <td>Belanda</td>
+    <td>23 Agu</td>
+    <td>🇳🇱</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>13</td>
+    <td>Italia</td>
+    <td>6 Sep</td>
+    <td>🇮🇹</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>14</td>
+    <td>Spanyol</td>
+    <td>13 Sep</td>
+    <td>🇪🇸</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>15</td>
+    <td>Azerbaizan</td>
+    <td>26 Sep</td>
+    <td>🇦🇿</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>16</td>
+    <td>Singapura</td>
+    <td>11 Okt</td>
+    <td>🇸🇬</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>17</td>
+    <td>Amerika Serikat</td>
+    <td>26 Okt</td>
+    <td>🇺🇲</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>18</td>
+    <td>Meksiko</td>
+    <td>2 Nov</td>
+    <td>🇲🇽</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>19</td>
+    <td>Brasil</td>
+    <td>9 Nov</td>
+    <td>🇧🇷</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>20</td>
+    <td>Las Vegas</td>
+    <td>22 Nov</td>
+    <td>🇺🇲</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>21</td>
+    <td>Qatar</td>
+    <td>29 Nov</td>
+    <td>🇶🇦</td>
+    <td>Belum Dimulai</td>
+</tr>
+
+<tr>
+    <td>22</td>
+    <td>Abu Dhabi</td>
+    <td>6 Des</td>
+    <td>🇦🇪</td>
+    <td>Belum Dimulai</td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Teams Section -->
+    <section id="teams" class="section">
+        <h2><i class="fas fa-car"></i> Constructor Standings</h2>
+        <div class="teams-grid">
+            <div class="team-card">
+                <div class="team-logo">⭐</div>
+                <h3>Mercedes</h3>
+                <div>Points: 219</div>
+            </div>
+            <div class="team-card">
+                <div class="team-logo">🐎
+</div>
+                <h3>Ferrari</h3>
+                <div>Points: 147</div>
+            </div>
+            <div class="team-card">
+                <div class="team-logo">🟧</div>
+                <h3>Mclaren</h3>
+                <div>Points: 106</div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-logo">🐂</div>
+                <h3>Red Bull Racing</h3>
+                <div>Points: 57</div>
+            </div>
+            <div class="team-card">
+                <div class="team-logo">🔵</div>
+                <h3>Alpine</h3>
+                <div>Points: 35</div>
+            </div>
+            <div class="team-card">
+                <div class="team-logo">🐂</div>
+                <h3>Racing Bulls</h3>
+                <div>Points: 21</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="section">
+        <h2><i class="fas fa-chart-bar"></i> F1 Stats</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <p>Races / Season</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <p>Teams</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <p>Drivers</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">340km/h</div>
+                <p>Top Speed</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3.s</div>
+                <p>0-100km/h</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7x</div>
+                <p>Max Championships</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 F1 Info. Made with <i class="fas fa-heart" style="color: #ff1d25;"></i> for F1 fans.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0,0,0,0.95)';
+            } else {
+                header.style.background = 'rgba(0,0,0,0.9)';
+            }
+        });
+
+        // Counter animation for stats
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current) + counter.textContent.replace(/[\d]/g, '');
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + counter.textContent.replace(/[\d]/g, '');
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Trigger counter animation when stats section is visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        observer.observe(document.getElementById('stats'));
+    </script>
+</body>
+</html>
